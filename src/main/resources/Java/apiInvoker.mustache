@@ -24,6 +24,9 @@ import java.net.URLEncoder;
 import java.io.UnsupportedEncodingException;
 
 public class ApiInvoker {
+  {{! wikia }}
+  private static final String RESTRICTED_HEADERS_PROPERTY = "sun.net.http.allowRestrictedHeaders";
+  {{! /wikia }}
   private static ApiInvoker INSTANCE = new ApiInvoker();
   private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
@@ -102,9 +105,20 @@ public class ApiInvoker {
     String querystring = b.toString();
 
     Builder builder = client.resource(host + path + querystring).accept("application/json");
+    {{! wikia }}
+    String currentRestrictedSetting = System.getProperty(RESTRICTED_HEADERS_PROPERTY);
+    System.setProperty(RESTRICTED_HEADERS_PROPERTY, "true");
+    {{! /wikia }}
+
     for(String key : headerParams.keySet()) {
       builder.header(key, headerParams.get(key));
     }
+
+    {{! wikia }}
+    if (currentRestrictedSetting != null) {
+      System.setProperty(RESTRICTED_HEADERS_PROPERTY, currentRestrictedSetting);
+    }
+    {{! /wikia }}
 
     for(String key : defaultHeaderMap.keySet()) {
       if(!headerParams.containsKey(key)) {

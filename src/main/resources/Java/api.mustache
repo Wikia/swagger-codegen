@@ -39,8 +39,11 @@ public class {{classname}} {
   {{#errorList}} //error info- code: {{code}} reason: "{{reason}}" model: {{#responseModel}}{{responseModel}}
   {{/responseModel}}{{^responseModel}}<none>
   {{/responseModel}}
-  {{/errorList}}  
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  {{/errorList}}
+  {{! wikia }}
+  // public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} (String wikia{{#hasParams}}, {{/hasParams}}{{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  {{! /wikia }}
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#requiredParamCount}}
     // verify required params are set
@@ -61,6 +64,10 @@ public class {{classname}} {
     {{#queryParams}}if(!"null".equals(String.valueOf({{paramName}})))
       queryParams.put("{{baseName}}", String.valueOf({{paramName}}));
     {{/queryParams}}
+
+    {{! wikia change start - since we're changing the host header we need to add this }}
+    headerParams.put("Host", wikia+".wikia.com");
+    {{! wikia change end }}
 
     {{#headerParams}}headerParams.put("{{baseName}}", {{paramName}});
     {{/headerParams}}
