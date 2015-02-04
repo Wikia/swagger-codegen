@@ -562,6 +562,7 @@ public class DefaultCodegen {
         c.add(mediaType);
       }
       op.consumes = c;
+      op.hasConsumes = true;
     }
 
     if(operation.getProduces() != null && operation.getProduces().size() > 0) {
@@ -576,6 +577,7 @@ public class DefaultCodegen {
         c.add(mediaType);
       }
       op.produces = c;
+      op.hasProduces = true;
     }
 
     if(operation.getResponses() != null) {
@@ -659,29 +661,35 @@ public class DefaultCodegen {
         CodegenParameter p = fromParameter(param, imports);
         allParams.add(p);
         if(param instanceof QueryParameter) {
-          queryParams.add(p);
           p.isQueryParam = new Boolean(true);
+          queryParams.add(p.copy());
         }
         else if(param instanceof PathParameter) {
           p.required = true;
-          pathParams.add(p);
           p.isPathParam = new Boolean(true);
+          pathParams.add(p.copy());
         }
         else if(param instanceof HeaderParameter) {
-          headerParams.add(p);
           p.isHeaderParam = new Boolean(true);
+          headerParams.add(p.copy());
         }
         else if(param instanceof CookieParameter) {
-          cookieParams.add(p);
           p.isCookieParam = new Boolean(true);
+          cookieParams.add(p.copy());
         }
         else if(param instanceof BodyParameter) {
-          bodyParams.add(p);
           p.isBodyParam = new Boolean(true);
           bodyParam = p;
+          bodyParams.add(p.copy());
         }
-        // else if(param instanceof FormParameter)
-        //   formParams.add(p);
+        else if(param instanceof FormParameter) {
+          if("file".equals(p.dataType))
+            p.isFile = true;
+          else
+            p.notFile = true;
+          p.isFormParam = new Boolean(true);
+          formParams.add(p.copy());
+        }
       }
     }
     for(String i: imports) {

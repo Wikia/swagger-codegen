@@ -65,7 +65,6 @@ public class {{classname}} {
 
     {{#headerParams}}headerParams.put("{{baseName}}", {{paramName}});
     {{/headerParams}}
-
     String[] contentTypes = {
       {{#consumes}}"{{mediaType}}"{{#hasMore}},{{/hasMore}}{{/consumes}}
     };

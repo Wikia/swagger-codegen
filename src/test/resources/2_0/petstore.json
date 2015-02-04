@@ -205,6 +205,29 @@
         ]
       }
     },
+    "/pet/{petId}/upload": {
+      "post": {
+        "tags": [ "pet" ],
+        "summary": "Upload an image for a pet",
+        "operationId": "uploadImage",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "formData",
+            "name": "petImage",
+            "description": "image to upload",
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "it worked"
+          }
+        }
+      }  
+    },
     "/pet/{petId}": {
       "get": {
         "tags": [
