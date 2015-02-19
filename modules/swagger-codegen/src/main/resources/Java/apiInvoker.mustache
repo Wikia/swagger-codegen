@@ -25,10 +25,30 @@ public class ApiInvoker {
   {{! wikia }}
   private static final String RESTRICTED_HEADERS_PROPERTY = "sun.net.http.allowRestrictedHeaders";
   {{! /wikia }}
+  public interface ClientFactory {
+    public Client getClient(String path);
+  }
+
+  public class DefaultClientFactory implements ClientFactory {
+    private Map<String, Client> hostMap = new HashMap<String, Client>();
+
+    protected Client createClient(String path) {
+      return ClientBuilder.newClient();
+    }
+
+    public Client getClient(String path) {
+      if(!hostMap.containsKey(path)) {
+        Client client = createClient(path);
+        hostMap.put(path, client);
+      }
+      return hostMap.get(path);
+    }
+  }
+
   private static ApiInvoker INSTANCE = new ApiInvoker();
-  private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private boolean isDebug = false;
+  private ClientFactory clientFactory = new DefaultClientFactory();
 
   public void enableDebug() {
     isDebug = true;
@@ -36,6 +56,10 @@ public class ApiInvoker {
 
   public static ApiInvoker getInstance() {
     return INSTANCE;
+  }
+
+  public void setClientFactory(ClientFactory clientFactory) {
+    clientFactory = clientFactory;
   }
 
   public void addDefaultHeader(String key, String value) {
@@ -86,7 +110,7 @@ public class ApiInvoker {
   }
 
   public String invokeAPI(String host, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
-    Client client = getClient(host);
+    Client client = clientFactory.getClient(host);
     WebTarget webTarget = client.target(host).path(path);
 
     for(String key : queryParams.keySet()) {
@@ -179,13 +203,5 @@ public class ApiInvoker {
                 response.getStatus(),
                 response.getStatusInfo().getReasonPhrase());
     }
-  }
-
-  private Client getClient(String host) {
-    if(!hostMap.containsKey(host)) {
-      Client client = ClientBuilder.newClient();
-      hostMap.put(host, client);
-    }
-    return hostMap.get(host);
   }
 }
