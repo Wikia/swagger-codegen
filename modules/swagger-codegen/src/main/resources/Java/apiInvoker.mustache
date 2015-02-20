@@ -1,16 +1,10 @@
 package {{invokerPackage}};
 
-import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -26,9 +20,9 @@ public class ApiInvoker {
   private static final String RESTRICTED_HEADERS_PROPERTY = "sun.net.http.allowRestrictedHeaders";
   {{! /wikia }}
   private static ApiInvoker INSTANCE = new ApiInvoker();
-  private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private boolean isDebug = false;
+  private ClientFactory clientFactory = new DefaultClientFactory();
 
   public void enableDebug() {
     isDebug = true;
@@ -36,6 +30,10 @@ public class ApiInvoker {
 
   public static ApiInvoker getInstance() {
     return INSTANCE;
+  }
+
+  public void setClientFactory(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
   }
 
   public void addDefaultHeader(String key, String value) {
@@ -85,9 +83,9 @@ public class ApiInvoker {
     }
   }
 
-  public String invokeAPI(String host, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
-    Client client = getClient(host);
-    WebTarget webTarget = client.target(host).path(path);
+  public String invokeAPI(String urlBase, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+    Client client = clientFactory.getClient(urlBase);
+    WebTarget webTarget = client.target(urlBase).path(path);
 
     for(String key : queryParams.keySet()) {
       webTarget = webTarget.queryParam(key, queryParams.get(key));
@@ -179,13 +177,5 @@ public class ApiInvoker {
                 response.getStatus(),
                 response.getStatusInfo().getReasonPhrase());
     }
-  }
-
-  private Client getClient(String host) {
-    if(!hostMap.containsKey(host)) {
-      Client client = ClientBuilder.newClient();
-      hostMap.put(host, client);
-    }
-    return hostMap.get(host);
   }
 }
