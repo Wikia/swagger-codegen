@@ -92,20 +92,10 @@ public class ApiInvoker {
     }
 
     Invocation.Builder builder = webTarget.request(MediaType.APPLICATION_JSON);
-    {{! wikia }}
-    String currentRestrictedSetting = System.getProperty(RESTRICTED_HEADERS_PROPERTY);
-    System.setProperty(RESTRICTED_HEADERS_PROPERTY, "true");
-    {{! /wikia }}
 
     for(String key : headerParams.keySet()) {
       builder.header(key, headerParams.get(key));
     }
-
-    {{! wikia }}
-    if (currentRestrictedSetting != null) {
-      System.setProperty(RESTRICTED_HEADERS_PROPERTY, currentRestrictedSetting);
-    }
-    {{! /wikia }}
 
     for(String key : defaultHeaderMap.keySet()) {
       if(!headerParams.containsKey(key)) {

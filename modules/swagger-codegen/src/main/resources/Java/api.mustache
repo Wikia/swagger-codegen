@@ -39,7 +39,7 @@ public class {{classname}} {
   {{/responseModel}}{{^responseModel}}<none>
   {{/responseModel}}
   {{/errorList}}
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} (String wikia{{#hasParams}}, {{/hasParams}}{{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#requiredParamCount}}
     // verify required params are set
@@ -60,8 +60,6 @@ public class {{classname}} {
     {{#queryParams}}if(!"null".equals(String.valueOf({{paramName}})))
       queryParams.put("{{baseName}}", String.valueOf({{paramName}}));
     {{/queryParams}}
-
-    headerParams.put("Host", wikia+".wikia.com");
 
     {{#headerParams}}headerParams.put("{{baseName}}", {{paramName}});
     {{/headerParams}}
