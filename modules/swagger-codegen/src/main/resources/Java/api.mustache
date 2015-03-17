@@ -10,8 +10,7 @@ import java.util.*;
 {{#imports}}import {{import}};
 {{/imports}}
 
-import com.sun.jersey.multipart.FormDataMultiPart;
-
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MediaType;
 
 import java.io.File;
@@ -39,8 +38,8 @@ public class {{classname}} {
   {{#errorList}} //error info- code: {{code}} reason: "{{reason}}" model: {{#responseModel}}{{responseModel}}
   {{/responseModel}}{{^responseModel}}<none>
   {{/responseModel}}
-  {{/errorList}}  
-  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} ({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  {{/errorList}}
+  public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{nickname}} (String wikia{{#hasParams}}, {{/hasParams}}{{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     Object postBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#requiredParamCount}}
     // verify required params are set
@@ -58,9 +57,12 @@ public class {{classname}} {
     Map<String, String> headerParams = new HashMap<String, String>();
     Map<String, String> formParams = new HashMap<String, String>();
 
-    {{#queryParams}}if(!"null".equals(String.valueOf({{paramName}})))
+    {{#queryParams}}if ({{paramName}} != null)
       queryParams.put("{{baseName}}", String.valueOf({{paramName}}));
     {{/queryParams}}
+
+    headerParams.put("Host", wikia+".wikia.com");
+
     {{#headerParams}}headerParams.put("{{baseName}}", {{paramName}});
     {{/headerParams}}
     String[] contentTypes = {
@@ -71,16 +73,19 @@ public class {{classname}} {
 
     if(contentType.startsWith("multipart/form-data")) {
       boolean hasFields = false;
-      FormDataMultiPart mp = new FormDataMultiPart();
-      {{#formParams}}{{#notFile}}
+      Form form = new Form();
+      {{#formParams}}
+      {{#notFile}}
       hasFields = true;
-      mp.field("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE);
-      {{/notFile}}{{#isFile}}
+      form.param("{{baseName}}", {{paramName}});
+      {{/notFile}}
+      {{#isFile}}
       hasFields = true;
-      mp.field("{{baseName}}", {{paramName}}, MediaType.MULTIPART_FORM_DATA_TYPE);
-      {{/isFile}}{{/formParams}}
+      form.param("{{baseName}}", {{paramName}});
+      {{/isFile}}
+      {{/formParams}}
       if(hasFields)
-        postBody = mp;
+        postBody = form;
     }
     else {
       {{#formParams}}{{#notFile}}formParams.put("{{baseName}}", {{paramName}});{{/notFile}}

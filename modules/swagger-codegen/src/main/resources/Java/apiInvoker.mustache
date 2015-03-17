@@ -1,20 +1,12 @@
 package {{invokerPackage}};
 
-import com.fasterxml.jackson.core.JsonGenerator.Feature;
 import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.config.ClientConfig;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.LoggingFilter;
-import com.sun.jersey.api.client.WebResource.Builder;
-import com.sun.jersey.multipart.FormDataMultiPart;
-
-import javax.ws.rs.core.Response.Status.Family;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -24,10 +16,13 @@ import java.net.URLEncoder;
 import java.io.UnsupportedEncodingException;
 
 public class ApiInvoker {
+  {{! wikia }}
+  private static final String RESTRICTED_HEADERS_PROPERTY = "sun.net.http.allowRestrictedHeaders";
+  {{! /wikia }}
   private static ApiInvoker INSTANCE = new ApiInvoker();
-  private Map<String, Client> hostMap = new HashMap<String, Client>();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private boolean isDebug = false;
+  private ClientFactory clientFactory = new DefaultClientFactory();
 
   public void enableDebug() {
     isDebug = true;
@@ -35,6 +30,10 @@ public class ApiInvoker {
 
   public static ApiInvoker getInstance() {
     return INSTANCE;
+  }
+
+  public void setClientFactory(ClientFactory clientFactory) {
+    this.clientFactory = clientFactory;
   }
 
   public void addDefaultHeader(String key, String value) {
@@ -87,46 +86,51 @@ public class ApiInvoker {
     }
   }
 
-  public String invokeAPI(String host, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
-    Client client = getClient(host);
-
-    StringBuilder b = new StringBuilder();
+  public String invokeAPI(String urlBase, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+    Client client = clientFactory.getClient(urlBase);
+    WebTarget webTarget = client.target(urlBase).path(path);
 
     for(String key : queryParams.keySet()) {
-      String value = queryParams.get(key);
-      if (value != null){
-        if(b.toString().length() == 0)
-          b.append("?");
-        else
-          b.append("&");
-        b.append(escapeString(key)).append("=").append(escapeString(value));
-      }
+      webTarget = webTarget.queryParam(key, queryParams.get(key));
     }
-    String querystring = b.toString();
 
-    Builder builder = client.resource(host + path + querystring).accept("application/json");
+    Invocation.Builder builder = webTarget.request(MediaType.APPLICATION_JSON);
+    {{! wikia }}
+    String currentRestrictedSetting = System.getProperty(RESTRICTED_HEADERS_PROPERTY);
+    System.setProperty(RESTRICTED_HEADERS_PROPERTY, "true");
+    {{! /wikia }}
+
     for(String key : headerParams.keySet()) {
       builder.header(key, headerParams.get(key));
     }
+
+    {{! wikia }}
+    if (currentRestrictedSetting != null) {
+      System.setProperty(RESTRICTED_HEADERS_PROPERTY, currentRestrictedSetting);
+    }
+    {{! /wikia }}
 
     for(String key : defaultHeaderMap.keySet()) {
       if(!headerParams.containsKey(key)) {
         builder.header(key, defaultHeaderMap.get(key));
       }
     }
-    ClientResponse response = null;
+    Response response = null;
 
     if("GET".equals(method)) {
-      response = (ClientResponse) builder.get(ClientResponse.class);
+      response = builder.get();
     }
-    else if ("POST".equals(method)) {
+    /*else if ("POST".equals(method)) {
+      Entity entity;
+
       if(body == null)
-        response = builder.post(ClientResponse.class, null);
-      else if(body instanceof FormDataMultiPart) {
-        response = builder.type(contentType).post(ClientResponse.class, body);
-      }
+        entity = Entity.entity(null, null);
+      else if(body instanceof Form)
+        entity = Entity.entity(body, contentType);
       else
-        response = builder.type(contentType).post(ClientResponse.class, serialize(body));
+        entity = Entity.entity(serialize(body), contentType);
+
+      response = builder.post(entity);
     }
     else if ("PUT".equals(method)) {
       if(body == null)
@@ -161,30 +165,20 @@ public class ApiInvoker {
         response = builder.delete(ClientResponse.class, serialize(body));
       else
         response = builder.type(contentType).delete(ClientResponse.class, serialize(body));
-    }
+    }*/
     else {
       throw new ApiException(500, "unknown method type " + method);
     }
-    if(response.getClientResponseStatus() == ClientResponse.Status.NO_CONTENT) {
+    if(response.getStatusInfo() == Response.Status.NO_CONTENT) {
       return null;
     }
-    else if(response.getClientResponseStatus().getFamily() == Family.SUCCESSFUL) {
-      return (String) response.getEntity(String.class);
+    else if(response.getStatusInfo().getFamily() == Response.Status.Family.SUCCESSFUL) {
+      return response.readEntity(String.class);
     }
     else {
       throw new ApiException(
-                response.getClientResponseStatus().getStatusCode(),
-                response.getEntity(String.class));
+                response.getStatus(),
+                response.getStatusInfo().getReasonPhrase());
     }
-  }
-
-  private Client getClient(String host) {
-    if(!hostMap.containsKey(host)) {
-      Client client = Client.create();
-      if(isDebug)
-        client.addFilter(new LoggingFilter());
-      hostMap.put(host, client);
-    }
-    return hostMap.get(host);
   }
 }

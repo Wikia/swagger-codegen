@@ -1,0 +1,23 @@
+package {{invokerPackage}};
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+
+import java.util.Map;
+import java.util.HashMap;
+
+public class DefaultClientFactory implements ClientFactory {
+  private Map<String, Client> urlBaseClientMap = new HashMap<String, Client>();
+
+  protected Client createClient(String urlBase) {
+    return ClientBuilder.newClient();
+  }
+
+  public Client getClient(String urlBase) {
+    if(!urlBaseClientMap.containsKey(urlBase)) {
+      Client client = createClient(urlBase);
+      urlBaseClientMap.put(urlBase, client);
+    }
+    return urlBaseClientMap.get(urlBase);
+  }
+}
