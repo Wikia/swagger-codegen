@@ -12,14 +12,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * {{description}}
  **/{{/description}}
 @ApiModel(description = "{{{description}}}")
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
-  {{#vars}}{{#isEnum}}
-  public enum {{datatypeWithEnum}} {
-    {{#allowableValues}}{{#values}} {{.}}, {{/values}}{{/allowableValues}}
-  };
-  private {{{datatypeWithEnum}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{^isEnum}}
-  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{/isEnum}}{{/vars}}
-
+public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} { {{#vars}}
+  private {{{datatype}}} {{name}} = {{{defaultValue}}};{{#allowableValues}}
+  
+  //{{^min}}public enum {{name}}Enum { {{#values}} {{.}}, {{/values}} }; 
+  {{/min}}{{/allowableValues}}{{/vars}}
+  
   {{#vars}}
   /**{{#description}}
    * {{{description}}}{{/description}}{{#minimum}}
@@ -28,10 +26,10 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {
    **/
   @ApiModelProperty(required = {{required}}, value = "{{{description}}}")
   @JsonProperty("{{name}}")
-  public {{{datatypeWithEnum}}} {{getter}}() {
+  public {{{datatype}}} {{getter}}() {
     return {{name}};
   }
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  public void {{setter}}({{{datatype}}} {{name}}) {
     this.{{name}} = {{name}};
   }
 

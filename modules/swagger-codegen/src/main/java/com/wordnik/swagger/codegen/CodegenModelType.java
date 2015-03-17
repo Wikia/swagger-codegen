@@ -6,8 +6,7 @@ public enum CodegenModelType {
   OPERATION(CodegenOperation.class),
   PARAMETER(CodegenParameter.class),
   PROPERTY(CodegenProperty.class),
-  RESPONSE(CodegenResponse.class),
-  SECURITY(CodegenSecurity.class);
+  RESPONSE(CodegenResponse.class);
 
   private final Class<?> defaultImplementation;
 

@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
-#import "SWGApiTokenStatus.h"
+#import "SWGWordList.h"
 #import "SWGAuthenticationToken.h"
 #import "SWGUser.h"
-#import "SWGWordList.h"
+#import "SWGApiTokenStatus.h"
 #import "SWGObject.h"
 
 

@@ -1,6 +1,6 @@
 <?php
 /**
- *  Copyright 2015 Reverb Technologies, Inc.
+ *  Copyright 2014 Reverb Technologies, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 {{#models}}
 {{#model}}
 
-class {{classname}} implements ArrayAccess {
+class {{classname}} {
   static $swaggerTypes = array(
       {{#vars}}'{{name}}' => '{{{datatype}}}'{{#hasMore}},
       {{/hasMore}}{{/vars}}
@@ -35,27 +35,6 @@ class {{classname}} implements ArrayAccess {
   * {{{description}}}
   */{{/description}}
   public ${{name}}; /* {{{datatype}}} */{{/vars}}
-
-  public function __construct(array $data) {
-    {{#vars}}$this->{{name}} = $data["{{name}}"];{{#hasMore}}
-    {{/hasMore}}{{/vars}}
-  }
-
-  public function offsetExists($offset) {
-    return isset($this->$offset);
-  }
-
-  public function offsetGet($offset) {
-    return $this->$offset;
-  }
-
-  public function offsetSet($offset, $value) {
-    $this->$offset = $value;
-  }
-
-  public function offsetUnset($offset) {
-    unset($this->$offset);
-  }
 }
 {{/model}}
 {{/models}}

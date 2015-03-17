@@ -11,11 +11,10 @@ import java.util.Date
 import scala.collection.mutable.HashMap
 
 {{#operations}}
-class {{classname}}(val defBasePath: String = "{{basePath}}",
-                        defApiInvoker: ApiInvoker = ApiInvoker) {
-  var basePath = defBasePath
-  var apiInvoker = defApiInvoker
-
+class {{classname}} {
+  var basePath: String = "{{basePath}}"
+  var apiInvoker = ApiInvoker
+  
   def addHeader(key: String, value: String) = apiInvoker.defaultHeaders += key -> value 
 
   {{#operation}}

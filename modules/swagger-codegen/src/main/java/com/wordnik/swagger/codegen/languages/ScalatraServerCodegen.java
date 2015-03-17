@@ -14,10 +14,6 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/scala";
 
-  public CodegenType getTag() {
-    return CodegenType.SERVER;
-  }
-
   public String getName() {
     return "scalatra";
   }
@@ -128,11 +124,11 @@ public class ScalatraServerCodegen extends DefaultCodegen implements CodegenConf
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
+    return outputFolder + "/" + sourceFolder + "/" + apiPackage().replaceAll("\\.", "/");
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+    return outputFolder + "/" + sourceFolder + "/" + modelPackage().replaceAll("\\.", "/");
   }
 
   @Override

@@ -1,19 +1,20 @@
 package io.swagger.client.model;
 
-import io.swagger.client.model.SimpleExample;
-import io.swagger.client.model.ContentProvider;
-import io.swagger.client.model.SimpleDefinition;
-import java.util.*;
 import java.util.Date;
+import io.swagger.client.model.SimpleDefinition;
+import io.swagger.client.model.ContentProvider;
+import java.util.*;
+import io.swagger.client.model.SimpleExample;
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class WordOfTheDay  {
-  
+public class WordOfTheDay  { 
   private Long id = null;
+  
+  //public enum idEnum {  }; 
+  
   private String parentId = null;
   private String category = null;
   private String createdBy = null;
@@ -25,12 +26,11 @@ public class WordOfTheDay  {
   private List<SimpleExample> examples = new ArrayList<SimpleExample>() ;
   private String note = null;
   private Date publishDate = null;
-
+  
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -42,7 +42,6 @@ public class WordOfTheDay  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("parentId")
   public String getParentId() {
     return parentId;
   }
@@ -54,7 +53,6 @@ public class WordOfTheDay  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("category")
   public String getCategory() {
     return category;
   }
@@ -66,7 +64,6 @@ public class WordOfTheDay  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("createdBy")
   public String getCreatedBy() {
     return createdBy;
   }
@@ -78,7 +75,6 @@ public class WordOfTheDay  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("createdAt")
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -90,7 +86,6 @@ public class WordOfTheDay  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("contentProvider")
   public ContentProvider getContentProvider() {
     return contentProvider;
   }
@@ -102,7 +97,6 @@ public class WordOfTheDay  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("htmlExtra")
   public String getHtmlExtra() {
     return htmlExtra;
   }
@@ -114,7 +108,6 @@ public class WordOfTheDay  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("word")
   public String getWord() {
     return word;
   }
@@ -126,7 +119,6 @@ public class WordOfTheDay  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("definitions")
   public List<SimpleDefinition> getDefinitions() {
     return definitions;
   }
@@ -138,7 +130,6 @@ public class WordOfTheDay  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("examples")
   public List<SimpleExample> getExamples() {
     return examples;
   }
@@ -150,7 +141,6 @@ public class WordOfTheDay  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("note")
   public String getNote() {
     return note;
   }
@@ -162,7 +152,6 @@ public class WordOfTheDay  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("publishDate")
   public Date getPublishDate() {
     return publishDate;
   }

@@ -2,21 +2,24 @@ package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class WordSearchResult  {
-  
+public class WordSearchResult  { 
   private Long count = null;
+  
+  //public enum countEnum {  }; 
+  
   private Double lexicality = null;
+  
+  //public enum lexicalityEnum {  }; 
+  
   private String word = null;
-
+  
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("count")
   public Long getCount() {
     return count;
   }
@@ -28,7 +31,6 @@ public class WordSearchResult  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("lexicality")
   public Double getLexicality() {
     return lexicality;
   }
@@ -40,7 +42,6 @@ public class WordSearchResult  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("word")
   public String getWord() {
     return word;
   }

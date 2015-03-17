@@ -2,22 +2,22 @@ package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class SimpleExample  {
-  
+public class SimpleExample  { 
   private Long id = null;
+  
+  //public enum idEnum {  }; 
+  
   private String title = null;
   private String text = null;
   private String url = null;
-
+  
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -29,7 +29,6 @@ public class SimpleExample  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("title")
   public String getTitle() {
     return title;
   }
@@ -41,7 +40,6 @@ public class SimpleExample  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("text")
   public String getText() {
     return text;
   }
@@ -53,7 +51,6 @@ public class SimpleExample  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("url")
   public String getUrl() {
     return url;
   }

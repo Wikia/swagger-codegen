@@ -20,24 +20,25 @@ class CodegenTest extends FlatSpec with Matchers {
       .read("src/test/resources/2_0/petstore.json")
 
     val codegen = new DefaultCodegen()
-    val path = "/pet/{petId}/uploadImage"
+    val path = "/pet/{petId}/upload"
     val p = model.getPaths().get(path).getPost()
     val op = codegen.fromOperation(path, "post", p)
 
-    op.operationId should be ("uploadFile")
+    op.operationId should be ("uploadImage")
     op.httpMethod should be ("POST")
     op.hasConsumes should equal (true)
     op.consumes.size should be(1)
     op.consumes.get(0).get("mediaType") should be ("multipart/form-data")
 
-    op.hasProduces should equal (true)
+    op.hasProduces should be (null)
+
     val allParams = op.allParams
-    allParams.size should be (3)
+    allParams.size should be (1)
 
     val formParams = op.formParams
-    formParams.size should be (2)
+    formParams.size should be (1)
 
-    val file = formParams.get(1)
+    val file = formParams.get(0)
     file.isFormParam should equal (true)
     file.dataType should be ("file")
     file.required should equal (false)
@@ -84,41 +85,14 @@ class CodegenTest extends FlatSpec with Matchers {
     nameParam.isFormParam should equal (true)
     nameParam.notFile should equal (true)
     nameParam.dataType should be ("String")
-    nameParam.required should equal (false)
+    nameParam.required should equal (true)
     nameParam.hasMore should equal (true)
 
     val statusParam = formParams.get(1)
     statusParam.isFormParam should equal (true)
     statusParam.notFile should equal (true)
     statusParam.dataType should be ("String")
-    statusParam.required should equal (false)    
+    statusParam.required should equal (true)    
     statusParam.hasMore should be (null)    
   }
-
-  it should "select main response from a 2.0 spec using the lowest 2XX code" in {
-    val model = new SwaggerParser()
-      .read("src/test/resources/2_0/responseSelectionTest.json")
-
-    val codegen = new DefaultCodegen()
-
-    val path = "/tests/withTwoHundredAndDefault"
-    val p = model.getPaths().get(path).getGet()
-    val op = codegen.fromOperation(path, "get", p)
-    op.returnType should be("String")
-
-  }
-
-  it should "select main response from a 2.0 spec using the default keyword when no 2XX code" in {
-    val model = new SwaggerParser()
-      .read("src/test/resources/2_0/responseSelectionTest.json")
-
-    val codegen = new DefaultCodegen()
-
-    val path = "/tests/withoutTwoHundredButDefault"
-    val p = model.getPaths().get(path).getGet()
-    val op = codegen.fromOperation(path, "get", p)
-    op.returnType should be("String")
-
-  }
-
 }

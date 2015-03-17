@@ -2,20 +2,23 @@ package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Frequency  {
-  
+public class Frequency  { 
   private Long count = null;
+  
+  //public enum countEnum {  }; 
+  
   private Integer year = null;
-
+  
+  //public enum yearEnum {  }; 
+  
+  
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("count")
   public Long getCount() {
     return count;
   }
@@ -27,7 +30,6 @@ public class Frequency  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("year")
   public Integer getYear() {
     return year;
   }

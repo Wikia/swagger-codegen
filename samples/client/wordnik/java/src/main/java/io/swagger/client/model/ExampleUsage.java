@@ -6,10 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class ExampleUsage  {
-  
+public class ExampleUsage  { 
   private String text = null;
-
+  
   
   /**
    **/

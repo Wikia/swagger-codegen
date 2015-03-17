@@ -8,11 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class WordSearchResults  {
-  
+public class WordSearchResults  { 
   private List<WordSearchResult> searchResults = new ArrayList<WordSearchResult>() ;
   private Integer totalResults = null;
-
+  
+  //public enum totalResultsEnum {  }; 
+  
+  
   
   /**
    **/

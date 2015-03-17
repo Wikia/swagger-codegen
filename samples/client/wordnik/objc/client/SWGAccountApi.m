@@ -1,10 +1,10 @@
 #import "SWGAccountApi.h"
 #import "SWGFile.h"
 #import "SWGApiClient.h"
-#import "SWGApiTokenStatus.h"
+#import "SWGWordList.h"
 #import "SWGAuthenticationToken.h"
 #import "SWGUser.h"
-#import "SWGWordList.h"
+#import "SWGApiTokenStatus.h"
 
 
 
@@ -199,12 +199,9 @@ static NSString * basePath = @"https://api.wordnik.com/v4";
     
 
     id bodyDictionary = nil;
-    
-    id __body = body;
-
-    if(__body != nil && [__body isKindOfClass:[NSArray class]]){
+    if(body != nil && [body isKindOfClass:[NSArray class]]){
         NSMutableArray * objs = [[NSMutableArray alloc] init];
-        for (id dict in (NSArray*)__body) {
+        for (id dict in (NSArray*)body) {
             if([dict respondsToSelector:@selector(asDictionary)]) {
                 [objs addObject:[(SWGObject*)dict asDictionary]];
             }
@@ -214,25 +211,25 @@ static NSString * basePath = @"https://api.wordnik.com/v4";
         }
         bodyDictionary = objs;
     }
-    else if([__body respondsToSelector:@selector(asDictionary)]) {
-        bodyDictionary = [(SWGObject*)__body asDictionary];
+    else if([body respondsToSelector:@selector(asDictionary)]) {
+        bodyDictionary = [(SWGObject*)body asDictionary];
     }
-    else if([__body isKindOfClass:[NSString class]]) {
+    else if([body isKindOfClass:[NSString class]]) {
         // convert it to a dictionary
         NSError * error;
-        NSString * str = (NSString*)__body;
+        NSString * str = (NSString*)body;
         NSDictionary *JSON =
             [NSJSONSerialization JSONObjectWithData:[str dataUsingEncoding:NSUTF8StringEncoding]
                                             options:NSJSONReadingMutableContainers
                                               error:&error];
         bodyDictionary = JSON;
     }
-    else if([__body isKindOfClass: [SWGFile class]]) {
+    else if([body isKindOfClass: [SWGFile class]]) {
         requestContentType = @"form-data";
-        bodyDictionary = __body;
+        bodyDictionary = body;
     }
     else{
-        NSLog(@"don't know what to do with %@", __body);
+        NSLog(@"don't know what to do with %@", body);
     }
     
     

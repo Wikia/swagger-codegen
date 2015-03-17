@@ -17,10 +17,6 @@ public class JaxRSServerCodegen extends JavaClientCodegen implements CodegenConf
   protected String sourceFolder = "src/main/java";
   protected String title = "Swagger Server";
 
-  public CodegenType getTag() {
-    return CodegenType.SERVER;
-  }
-
   public String getName() {
     return "jaxrs";
   }

@@ -12,10 +12,7 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String groupId = "com.wordnik";
   protected String artifactId = "swagger-client";
   protected String artifactVersion = "1.0.0";
-
-  public CodegenType getTag() {
-    return CodegenType.CLIENT;
-  }
+  // protected String sourceFolder = "";
 
   public String getName() {
     return "php";
@@ -27,7 +24,6 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   public PhpClientCodegen() {
     super();
-    modelPackage = "models";
     outputFolder = "generated-code/php";
     modelTemplateFiles.put("model.mustache", ".php");
     apiTemplateFiles.put("api.mustache", ".php");
@@ -69,11 +65,11 @@ public class PhpClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/" + apiPackage().replace('.', File.separatorChar);
+    return outputFolder + "/" + apiPackage().replaceAll("\\.", "/");
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/" + modelPackage().replace('.', File.separatorChar);
+    return outputFolder + "/" + modelPackage().replaceAll("\\.", "/");
   }
 
   @Override

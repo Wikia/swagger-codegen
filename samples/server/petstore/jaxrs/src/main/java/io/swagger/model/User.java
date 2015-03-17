@@ -2,26 +2,38 @@ package io.swagger.model;
 
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class User  {
-  
-  private Long id = null;
-  private String username = null;
-  private String firstName = null;
-  private String lastName = null;
-  private String email = null;
-  private String password = null;
-  private String phone = null;
-  private Integer userStatus = null;
-
-  
+public class User  { 
   /**
    **/
+  private Long id = null;
+  /**
+   **/
+  private String username = null;
+  /**
+   **/
+  private String firstName = null;
+  /**
+   **/
+  private String lastName = null;
+  /**
+   **/
+  private String email = null;
+  /**
+   **/
+  private String password = null;
+  /**
+   **/
+  private String phone = null;
+  /**
+   * User Status
+   **/
+  private Integer userStatus = null;
+  
+  
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -30,10 +42,7 @@ public class User  {
   }
 
   
-  /**
-   **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("username")
   public String getUsername() {
     return username;
   }
@@ -42,10 +51,7 @@ public class User  {
   }
 
   
-  /**
-   **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
   }
@@ -54,10 +60,7 @@ public class User  {
   }
 
   
-  /**
-   **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
   }
@@ -66,10 +69,7 @@ public class User  {
   }
 
   
-  /**
-   **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("email")
   public String getEmail() {
     return email;
   }
@@ -78,10 +78,7 @@ public class User  {
   }
 
   
-  /**
-   **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("password")
   public String getPassword() {
     return password;
   }
@@ -90,10 +87,7 @@ public class User  {
   }
 
   
-  /**
-   **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("phone")
   public String getPhone() {
     return phone;
   }
@@ -102,11 +96,7 @@ public class User  {
   }
 
   
-  /**
-   * User Status
-   **/
   @ApiModelProperty(required = false, value = "User Status")
-  @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }

@@ -3,12 +3,10 @@ package io.swagger.client.model;
 import java.util.*;
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Related  {
-  
+public class Related  { 
   private String label1 = null;
   private String relationshipType = null;
   private String label2 = null;
@@ -16,12 +14,11 @@ public class Related  {
   private List<String> words = new ArrayList<String>() ;
   private String gram = null;
   private String label4 = null;
-
+  
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("label1")
   public String getLabel1() {
     return label1;
   }
@@ -33,7 +30,6 @@ public class Related  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("relationshipType")
   public String getRelationshipType() {
     return relationshipType;
   }
@@ -45,7 +41,6 @@ public class Related  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("label2")
   public String getLabel2() {
     return label2;
   }
@@ -57,7 +52,6 @@ public class Related  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("label3")
   public String getLabel3() {
     return label3;
   }
@@ -69,7 +63,6 @@ public class Related  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("words")
   public List<String> getWords() {
     return words;
   }
@@ -81,7 +74,6 @@ public class Related  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("gram")
   public String getGram() {
     return gram;
   }
@@ -93,7 +85,6 @@ public class Related  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("label4")
   public String getLabel4() {
     return label4;
   }

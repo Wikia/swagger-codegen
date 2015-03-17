@@ -5,21 +5,18 @@ import io.swagger.client.model.Root;
 import java.util.*;
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class PartOfSpeech  {
-  
+public class PartOfSpeech  { 
   private List<Root> roots = new ArrayList<Root>() ;
   private List<String> storageAbbr = new ArrayList<String>() ;
   private List<Category> allCategories = new ArrayList<Category>() ;
-
+  
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("roots")
   public List<Root> getRoots() {
     return roots;
   }
@@ -31,7 +28,6 @@ public class PartOfSpeech  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("storageAbbr")
   public List<String> getStorageAbbr() {
     return storageAbbr;
   }
@@ -43,7 +39,6 @@ public class PartOfSpeech  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("allCategories")
   public List<Category> getAllCategories() {
     return allCategories;
   }

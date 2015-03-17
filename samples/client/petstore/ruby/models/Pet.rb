@@ -1,69 +1,44 @@
-
 class Pet
-  attr_accessor :id, :category, :name, :photoUrls, :tags, :status
+  attr_accessor :id, :category, :name, :photo_urls, :tags, :status
+
   # :internal => :external
   def self.attribute_map
     {
-      
       :id => :id,
-      
       :category => :category,
-      
       :name => :name,
-      
-      :photoUrls => :photoUrls,
-      
+      :photo_urls => :photoUrls,
       :tags => :tags,
-      
       :status => :status
-      
+
     }
   end
 
   def initialize(attributes = {})
     return if attributes.empty?
     # Morph attribute keys into undescored rubyish style
-    
     if self.class.attribute_map[:"id"]
-      
       @id = attributes["id"]
-      
     end
-    
     if self.class.attribute_map[:"category"]
-      
       @category = attributes["category"]
-      
     end
-    
     if self.class.attribute_map[:"name"]
-      
       @name = attributes["name"]
-      
     end
-    
-    if self.class.attribute_map[:"photoUrls"]
-      
+    if self.class.attribute_map[:"photo_urls"]
       if (value = attributes["photoUrls"]).is_a?(Array)
-        @photoUrls = value
+          @photo_urls = valueend
       end
-      
-    end
-    
     if self.class.attribute_map[:"tags"]
-      
       if (value = attributes["tags"]).is_a?(Array)
-        @tags = value.map{ |v| Tag.new(v) }
+          @tags = value.map{ |v| Tag.new(v) }end
       end
-      
-    end
-    
     if self.class.attribute_map[:"status"]
-      
       @status = attributes["status"]
-      
     end
     
+
   end
 
   def to_body
@@ -74,3 +49,4 @@ class Pet
     body
   end
 end
+

@@ -2,24 +2,33 @@ package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class ApiTokenStatus  {
-  
+public class ApiTokenStatus  { 
   private Boolean valid = null;
   private String token = null;
   private Long resetsInMillis = null;
+  
+  //public enum resetsInMillisEnum {  }; 
+  
   private Long remainingCalls = null;
+  
+  //public enum remainingCallsEnum {  }; 
+  
   private Long expiresInMillis = null;
+  
+  //public enum expiresInMillisEnum {  }; 
+  
   private Long totalRequests = null;
-
+  
+  //public enum totalRequestsEnum {  }; 
+  
+  
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("valid")
   public Boolean getValid() {
     return valid;
   }
@@ -31,7 +40,6 @@ public class ApiTokenStatus  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("token")
   public String getToken() {
     return token;
   }
@@ -43,7 +51,6 @@ public class ApiTokenStatus  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("resetsInMillis")
   public Long getResetsInMillis() {
     return resetsInMillis;
   }
@@ -55,7 +62,6 @@ public class ApiTokenStatus  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("remainingCalls")
   public Long getRemainingCalls() {
     return remainingCalls;
   }
@@ -67,7 +73,6 @@ public class ApiTokenStatus  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("expiresInMillis")
   public Long getExpiresInMillis() {
     return expiresInMillis;
   }
@@ -79,7 +84,6 @@ public class ApiTokenStatus  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("totalRequests")
   public Long getTotalRequests() {
     return totalRequests;
   }

@@ -8,11 +8,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Facet  {
-  
+public class Facet  { 
   private List<FacetValue> facetValues = new ArrayList<FacetValue>() ;
   private String name = null;
-
+  
   
   /**
    **/

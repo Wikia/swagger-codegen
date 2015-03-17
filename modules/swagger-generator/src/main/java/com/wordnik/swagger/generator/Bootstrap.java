@@ -1,5 +1,5 @@
 /**
- *  Copyright 2015 Reverb, Inc.
+ *  Copyright 2014 Reverb, Inc.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,21 +25,20 @@ import javax.servlet.ServletException;
 
 public class Bootstrap extends HttpServlet {
   public void init(ServletConfig config) throws ServletException {
-    ServletContext context = config.getServletContext();
+    Info info = new Info()
+      .title("Swagger Generator")
+      .description("This is an online swagger codegen server.  You can find out more " + 
+      "at <a href=\"https://github.com/wordnik/swagger-generator\">https://github.com/wordnik/swagger-generator</a> or on irc.freenode.net, #swagger." +
+      "http://helloreverb.com/terms/")
+      .termsOfService("http://helloreverb.com/terms/")
+      .contact(new Contact()
+        .email("apiteam@swagger.io"))
+      .license(new License()
+        .name("Apache 2.0")
+        .url("http://www.apache.org/licenses/LICENSE-2.0.html"));
 
-    DynamicSwaggerConfig bc = new DynamicSwaggerConfig();
-    bc.setBasePath("/api");
-    bc.setTitle("Swagger Generator");
-    bc.setDescription("This is an online swagger codegen server.  You can find out more " + 
-      "at <a href=\"https://github.com/wordnik/swagger-generator\">https://github.com/swagger-api/swagger-codegen</a> or on irc.freenode.net, #swagger." +
-      "http://helloreverb.com/terms/");
-    bc.setTermsOfServiceUrl("http://helloreverb.com/terms/");
-    bc.setContact("apiteam@swagger.io");
-    bc.setLicense("Apache 2.0");
-    bc.setVersion("1.0.0");
-    bc.setHost("generator.swagger.io");
-    bc.setLicenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html");
-    bc.setResourcePackage("com.wordnik.swagger.generator.resource");
-    bc.setScan(true);
+    ServletContext context = config.getServletContext();
+    Swagger swagger = new Swagger().info(info);
+    context.setAttribute("swagger", swagger);
   }
 }

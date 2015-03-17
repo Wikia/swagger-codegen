@@ -2,23 +2,29 @@ package io.swagger.client.model;
 
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Bigram  {
-  
+public class Bigram  { 
   private Long count = null;
+  
+  //public enum countEnum {  }; 
+  
   private String gram2 = null;
   private String gram1 = null;
   private Double wlmi = null;
+  
+  //public enum wlmiEnum {  }; 
+  
   private Double mi = null;
-
+  
+  //public enum miEnum {  }; 
+  
+  
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("count")
   public Long getCount() {
     return count;
   }
@@ -30,7 +36,6 @@ public class Bigram  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("gram2")
   public String getGram2() {
     return gram2;
   }
@@ -42,7 +47,6 @@ public class Bigram  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("gram1")
   public String getGram1() {
     return gram1;
   }
@@ -54,7 +58,6 @@ public class Bigram  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("wlmi")
   public Double getWlmi() {
     return wlmi;
   }
@@ -66,7 +69,6 @@ public class Bigram  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("mi")
   public Double getMi() {
     return mi;
   }

@@ -1,65 +1,38 @@
-
 class Order
-  attr_accessor :id, :petId, :quantity, :shipDate, :status, :complete
+  attr_accessor :id, :pet_id, :quantity, :status, :ship_date
+
   # :internal => :external
   def self.attribute_map
     {
-      
       :id => :id,
-      
-      :petId => :petId,
-      
+      :pet_id => :petId,
       :quantity => :quantity,
-      
-      :shipDate => :shipDate,
-      
       :status => :status,
-      
-      :complete => :complete
-      
+      :ship_date => :shipDate
+
     }
   end
 
   def initialize(attributes = {})
     return if attributes.empty?
     # Morph attribute keys into undescored rubyish style
-    
     if self.class.attribute_map[:"id"]
-      
       @id = attributes["id"]
-      
     end
-    
-    if self.class.attribute_map[:"petId"]
-      
-      @petId = attributes["petId"]
-      
+    if self.class.attribute_map[:"pet_id"]
+      @pet_id = attributes["petId"]
     end
-    
     if self.class.attribute_map[:"quantity"]
-      
       @quantity = attributes["quantity"]
-      
     end
-    
-    if self.class.attribute_map[:"shipDate"]
-      
-      @shipDate = attributes["shipDate"]
-      
-    end
-    
     if self.class.attribute_map[:"status"]
-      
       @status = attributes["status"]
-      
+    end
+    if self.class.attribute_map[:"ship_date"]
+      @ship_date = attributes["shipDate"]
     end
     
-    if self.class.attribute_map[:"complete"]
-      
-      @complete = attributes["complete"]
-      
-    end
-    
+
   end
 
   def to_body
@@ -70,3 +43,4 @@ class Order
     body
   end
 end
+

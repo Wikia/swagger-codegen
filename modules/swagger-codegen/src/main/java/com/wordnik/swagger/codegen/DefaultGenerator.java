@@ -1,7 +1,6 @@
 package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.models.*;
-import com.wordnik.swagger.models.auth.SecuritySchemeDefinition;
 import com.wordnik.swagger.util.*;
 import com.samskivert.mustache.*;
 
@@ -11,7 +10,7 @@ import java.util.*;
 import java.util.regex.*;
 import java.io.*;
 
-public class DefaultGenerator extends AbstractGenerator implements Generator {
+public class DefaultGenerator implements Generator {
   protected CodegenConfig config;
   protected ClientOptInput opts = null;
   protected Swagger swagger = null;
@@ -66,9 +65,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       else
         hostBuilder.append("https://");
       hostBuilder.append(swagger.getHost()).append(swagger.getBasePath());
-      String contextPath = swagger.getBasePath();
       String basePath = hostBuilder.toString();
-
 
       List<Object> allOperations = new ArrayList<Object>();
       List<Object> allModels = new ArrayList<Object>();
@@ -113,12 +110,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         List<CodegenOperation> ops = paths.get(tag);
         Map<String, Object> operation = processOperations(config, tag, ops);
         operation.put("basePath", basePath);
-        operation.put("contextPath", contextPath);
         operation.put("baseName", tag);
         operation.put("modelPackage", config.modelPackage());
         operation.putAll(config.additionalProperties());
         operation.put("classname", config.toApiName(tag));
-        operation.put("classVarName", config.toApiVarName(tag));
         allOperations.add(operation);
         for(String templateName : config.apiTemplateFiles().keySet()) {
           String suffix = config.apiTemplateFiles().get(templateName);
@@ -154,11 +149,11 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
       Map<String, Object> apis = new HashMap<String, Object>();
       apis.put("apis", allOperations);
       if(swagger.getBasePath() != null) {
-        bundle.put("basePath", basePath);
+        bundle.put("basePath", swagger.getBasePath());
       }
       bundle.put("apiInfo", apis);
       bundle.put("models", allModels);
-      bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
+      bundle.put("apiFolder", config.apiPackage().replaceAll("\\.", "/"));
       bundle.put("modelPackage", config.modelPackage());
       if (swagger.getExternalDocs() != null) {
         bundle.put("externalDocs", swagger.getExternalDocs());
@@ -168,8 +163,6 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
         CodegenModel m = cm.get("model");
         m.hasMoreModels = true;
       }
-
-      config.postProcessSupportingFileData(bundle);
 
       if(System.getProperty("debugSupportingFiles") != null) {
         System.out.println("############ Supporting file info ############");
@@ -231,49 +224,20 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     return ops;
   }
 
-  public SecuritySchemeDefinition fromSecurity(String name) {
-    Map<String, SecuritySchemeDefinition> map = swagger.getSecurityDefinitions();
-    if(map == null)
-      return null;
-    SecuritySchemeDefinition scheme = map.get(name);
-    if(scheme == null)
-      return null;
-    return scheme;
-  }
-
-
-
   public void processOperation(String resourcePath, String httpMethod, Operation operation, Map<String, List<CodegenOperation>> operations) {
     if(operation != null) {
       List<String> tags = operation.getTags();
-      if (tags == null) {
+      if(tags == null) {
         tags = new ArrayList<String>();
         tags.add("default");
       }
 
-      for (String tag : tags) {
+      for(String tag : tags) {
         CodegenOperation co = config.fromOperation(resourcePath, httpMethod, operation);
         co.tags = new ArrayList<String>();
         co.tags.add(sanitizeTag(tag));
-        config.addOperationToGroup(sanitizeTag(tag), resourcePath, operation, co, operations);
 
-        List<Map<String, List<String>>> securities = operation.getSecurity();
-        if(securities == null)
-          continue;
-        Map<String, SecuritySchemeDefinition> authMethods = new HashMap<String, SecuritySchemeDefinition>();
-        for (Map<String, List<String>> security : securities) {
-          if (security.size() != 1) {
-            //Not sure what to do
-            continue;
-          }
-          String securityName =  security.keySet().iterator().next();
-          SecuritySchemeDefinition securityDefinition = fromSecurity(securityName);
-          if(securityDefinition != null)
-            authMethods.put(securityName, securityDefinition);
-        }
-        if(!authMethods.isEmpty()) {
-          co.authMethods = config.fromSecurity(authMethods);
-        }
+        config.addOperationToGroup(sanitizeTag(tag), resourcePath, operation, co, operations);
       }
     }
   }
@@ -292,7 +256,58 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     return buf.toString().replaceAll("[^a-zA-Z ]", "");
   }
 
-  public Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops) {
+  public File writeToFile(String filename, String contents) throws IOException {
+    System.out.println("writing file " + filename);
+    File output = new File(filename);
+
+    if(output.getParent() != null && !new File(output.getParent()).exists()) {
+      File parent = new File(output.getParent());
+      parent.mkdirs();
+    }
+    Writer out = new BufferedWriter(new OutputStreamWriter(
+      new FileOutputStream(output), "UTF-8"));
+
+    out.write(contents);
+    out.close();
+    return output;
+  }
+
+  public String readTemplate(String name) {
+    try{
+      Reader reader = getTemplateReader(name);
+      if(reader == null)
+        throw new RuntimeException("no file found");
+      java.util.Scanner s = new java.util.Scanner(reader).useDelimiter("\\A");
+      return s.hasNext() ? s.next() : "";
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+    }
+    throw new RuntimeException("can't load template " + name);
+  }
+
+  public Reader getTemplateReader(String name) {
+    try{
+      InputStream is = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(name));
+      if(is == null)
+        is = new FileInputStream(new File(name));
+      if(is == null)
+        throw new RuntimeException("no file found");
+      return new InputStreamReader(is);
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+    }
+    throw new RuntimeException("can't load template " + name);
+  }
+  
+  private String getCPResourcePath(String name) {
+    if (!"/".equals(File.separator))
+      return name.replaceAll(Pattern.quote(File.separator), "/");
+    return name;
+  }
+
+public Map<String, Object> processOperations(CodegenConfig config, String tag, List<CodegenOperation> ops) {
     Map<String, Object> operations = new HashMap<String, Object>();
     Map<String, Object> objs = new HashMap<String, Object>();
     objs.put("classname", config.toApiName(tag));
@@ -300,14 +315,14 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     operations.put("operations", objs);
     operations.put("package", config.apiPackage());
 
-    Set<String> allImports = new LinkedHashSet<String>();
+    Set<String> allImports = new HashSet<String>();
     for(CodegenOperation op: ops) {
       allImports.addAll(op.imports);
     }
 
     List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
     for(String i: allImports) {
-      Map<String, String> im = new LinkedHashMap<String, String>();
+      Map<String, String> im = new HashMap<String, String>();
       String m = config.importMapping().get(i);
       if(m == null)
         m = config.toModelImport(i);
@@ -327,7 +342,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
     objs.put("package", config.modelPackage());
     List<Object> models = new ArrayList<Object>();
     List<Object> model = new ArrayList<Object>();
-    Set<String> allImports = new LinkedHashSet<String>();
+    Set<String> allImports = new HashSet<String>();
     for(String key: definitions.keySet()) {
       Model mm = definitions.get(key);
       CodegenModel cm = config.fromModel(key, mm);
@@ -340,7 +355,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
 
     List<Map<String, String>> imports = new ArrayList<Map<String, String>>();
     for(String i: allImports) {
-      Map<String, String> im = new LinkedHashMap<String, String>();
+      Map<String, String> im = new HashMap<String, String>();
       String m = config.importMapping().get(i);
       if(m == null)
         m = config.toModelImport(i);

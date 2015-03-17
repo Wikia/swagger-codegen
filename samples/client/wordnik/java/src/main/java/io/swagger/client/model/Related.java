@@ -7,8 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Related  {
-  
+public class Related  { 
   private String label1 = null;
   private String relationshipType = null;
   private String label2 = null;
@@ -16,7 +15,7 @@ public class Related  {
   private List<String> words = new ArrayList<String>() ;
   private String gram = null;
   private String label4 = null;
-
+  
   
   /**
    **/

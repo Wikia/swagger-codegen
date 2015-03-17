@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
-#import "SWGWordObject.h"
-#import "SWGDefinitionSearchResults.h"
 #import "SWGWordSearchResults.h"
+#import "SWGWordObject.h"
 #import "SWGWordOfTheDay.h"
+#import "SWGDefinitionSearchResults.h"
 #import "SWGObject.h"
 
 

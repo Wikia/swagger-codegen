@@ -1,13 +1,11 @@
 package com.wordnik.swagger.codegen;
 
 import com.wordnik.swagger.models.*;
-import com.wordnik.swagger.models.auth.SecuritySchemeDefinition;
 import com.wordnik.swagger.models.properties.*;
 
 import java.util.*;
 
 public interface CodegenConfig {
-  CodegenType getTag();
   String getName();
   String getHelp();
   Map<String, Object> additionalProperties();
@@ -19,7 +17,6 @@ public interface CodegenConfig {
   String modelFileFolder();
   String modelPackage();
   String toApiName(String name);
-  String toApiVarName(String name);
   String toModelName(String name);
   String toParamName(String name);
   String escapeReservedWord(String name);
@@ -36,8 +33,6 @@ public interface CodegenConfig {
 
   CodegenModel fromModel(String name, Model model);
   CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation);
-  List<CodegenSecurity> fromSecurity(Map<String, SecuritySchemeDefinition> schemes);
-
   Set<String> defaultIncludes();
   Map<String, String> typeMapping();
   Map<String, String> instantiationTypes();
@@ -53,5 +48,4 @@ public interface CodegenConfig {
   void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
   Map<String, Object> postProcessModels(Map<String, Object> objs);
   Map<String, Object> postProcessOperations(Map<String, Object> objs);
-  Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs);
 }

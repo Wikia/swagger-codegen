@@ -7,19 +7,13 @@ import io.swagger.client.model.*;
 
 import java.util.*;
 
-import io.swagger.client.model.WordObject;
-import io.swagger.client.model.AudioFile;
-import io.swagger.client.model.Definition;
-import io.swagger.client.model.FrequencySummary;
-import io.swagger.client.model.Bigram;
-import io.swagger.client.model.Example;
 
 import java.util.Map;
 import java.util.HashMap;
 import java.io.File;
 
 public class WordApi {
-  String basePath = "https://api.wordnik.com/v4";
+  String basePath = "http://api.wordnik.com/v4";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public void addHeader(String key, String value) {
@@ -40,7 +34,7 @@ public class WordApi {
 
   
   
-  public WordObject  getWord (String word, String useCanonical, String includeSuggestions) throws ApiException {
+  public void  getWord (String word, String useCanonical, String includeSuggestions) throws ApiException {
     Object postBody = null;
 
     
@@ -65,14 +59,14 @@ public class WordApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return (WordObject) ApiInvoker.deserialize(response, "", WordObject.class);
+        return ;
       }
       else {
-        return null;
+        return ;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return  null;
+        return ;
       }
       else {
         throw ex;
@@ -81,7 +75,7 @@ public class WordApi {
   }
   
   
-  public List<AudioFile>  getAudio (String word, String useCanonical, Integer limit) throws ApiException {
+  public void  getAudio (String word, String useCanonical, Integer limit) throws ApiException {
     Object postBody = null;
 
     
@@ -106,14 +100,14 @@ public class WordApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return (List<AudioFile>) ApiInvoker.deserialize(response, "array", AudioFile.class);
+        return ;
       }
       else {
-        return null;
+        return ;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return  null;
+        return ;
       }
       else {
         throw ex;
@@ -122,7 +116,7 @@ public class WordApi {
   }
   
   
-  public List<Definition>  getDefinitions (String word, Integer limit, String partOfSpeech, String includeRelated, List<String> sourceDictionaries, String useCanonical, String includeTags) throws ApiException {
+  public void  getDefinitions (String word, Integer limit, String partOfSpeech, String includeRelated, List<String> sourceDictionaries, String useCanonical, String includeTags) throws ApiException {
     Object postBody = null;
 
     
@@ -155,14 +149,14 @@ public class WordApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return (List<Definition>) ApiInvoker.deserialize(response, "array", Definition.class);
+        return ;
       }
       else {
-        return null;
+        return ;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return  null;
+        return ;
       }
       else {
         throw ex;
@@ -171,7 +165,7 @@ public class WordApi {
   }
   
   
-  public List<String>  getEtymologies (String word, String useCanonical) throws ApiException {
+  public void  getEtymologies (String word, String useCanonical) throws ApiException {
     Object postBody = null;
 
     
@@ -194,14 +188,14 @@ public class WordApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return (List<String>) ApiInvoker.deserialize(response, "array", String.class);
+        return ;
       }
       else {
-        return null;
+        return ;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return  null;
+        return ;
       }
       else {
         throw ex;
@@ -255,7 +249,7 @@ public class WordApi {
   }
   
   
-  public FrequencySummary  getWordFrequency (String word, String useCanonical, Integer startYear, Integer endYear) throws ApiException {
+  public void  getWordFrequency (String word, String useCanonical, Integer startYear, Integer endYear) throws ApiException {
     Object postBody = null;
 
     
@@ -282,14 +276,14 @@ public class WordApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return (FrequencySummary) ApiInvoker.deserialize(response, "", FrequencySummary.class);
+        return ;
       }
       else {
-        return null;
+        return ;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return  null;
+        return ;
       }
       else {
         throw ex;
@@ -341,7 +335,7 @@ public class WordApi {
   }
   
   
-  public List<Bigram>  getPhrases (String word, Integer limit, Integer wlmi, String useCanonical) throws ApiException {
+  public void  getPhrases (String word, Integer limit, Integer wlmi, String useCanonical) throws ApiException {
     Object postBody = null;
 
     
@@ -368,14 +362,14 @@ public class WordApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return (List<Bigram>) ApiInvoker.deserialize(response, "array", Bigram.class);
+        return ;
       }
       else {
-        return null;
+        return ;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return  null;
+        return ;
       }
       else {
         throw ex;
@@ -472,7 +466,7 @@ public class WordApi {
   }
   
   
-  public Example  getTopExample (String word, String useCanonical) throws ApiException {
+  public void  getTopExample (String word, String useCanonical) throws ApiException {
     Object postBody = null;
 
     
@@ -495,14 +489,14 @@ public class WordApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "GET", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return (Example) ApiInvoker.deserialize(response, "", Example.class);
+        return ;
       }
       else {
-        return null;
+        return ;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return  null;
+        return ;
       }
       else {
         throw ex;

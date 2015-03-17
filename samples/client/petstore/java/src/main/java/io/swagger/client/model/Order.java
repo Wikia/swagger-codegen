@@ -7,18 +7,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Order  {
-  
+public class Order  { 
   private Long id = null;
+  
+  //public enum idEnum {  }; 
+  
   private Long petId = null;
+  
+  //public enum petIdEnum {  }; 
+  
   private Integer quantity = null;
+  
+  //public enum quantityEnum {  }; 
+  
   private Date shipDate = null;
-  public enum StatusEnum {
-     placed,  approved,  delivered, 
-  };
-  private StatusEnum status = null;
+  private String status = null;
   private Boolean complete = null;
-
+  
   
   /**
    **/
@@ -73,10 +78,10 @@ public class Order  {
    **/
   @ApiModelProperty(required = false, value = "Order Status")
   @JsonProperty("status")
-  public StatusEnum getStatus() {
+  public String getStatus() {
     return status;
   }
-  public void setStatus(StatusEnum status) {
+  public void setStatus(String status) {
     this.status = status;
   }
 

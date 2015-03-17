@@ -9,10 +9,6 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 
 public class SwaggerGenerator extends DefaultCodegen implements CodegenConfig {
-  public CodegenType getTag() {
-    return CodegenType.DOCUMENTATION;
-  }
-
   public String getName() {
     return "swagger";
   }

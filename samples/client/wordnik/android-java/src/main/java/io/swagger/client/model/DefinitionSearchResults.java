@@ -1,23 +1,23 @@
 package io.swagger.client.model;
 
-import io.swagger.client.model.Definition;
 import java.util.*;
+import io.swagger.client.model.Definition;
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class DefinitionSearchResults  {
-  
+public class DefinitionSearchResults  { 
   private List<Definition> results = new ArrayList<Definition>() ;
   private Integer totalResults = null;
-
+  
+  //public enum totalResultsEnum {  }; 
+  
+  
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("results")
   public List<Definition> getResults() {
     return results;
   }
@@ -29,7 +29,6 @@ public class DefinitionSearchResults  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("totalResults")
   public Integer getTotalResults() {
     return totalResults;
   }

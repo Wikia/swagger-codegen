@@ -4,20 +4,17 @@ import io.swagger.client.model.FacetValue;
 import java.util.*;
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class Facet  {
-  
+public class Facet  { 
   private List<FacetValue> facetValues = new ArrayList<FacetValue>() ;
   private String name = null;
-
+  
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("facetValues")
   public List<FacetValue> getFacetValues() {
     return facetValues;
   }
@@ -29,7 +26,6 @@ public class Facet  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("name")
   public String getName() {
     return name;
   }

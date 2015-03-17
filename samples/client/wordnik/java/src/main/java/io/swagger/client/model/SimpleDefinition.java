@@ -6,13 +6,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class SimpleDefinition  {
-  
+public class SimpleDefinition  { 
   private String text = null;
   private String source = null;
   private String note = null;
   private String partOfSpeech = null;
-
+  
   
   /**
    **/

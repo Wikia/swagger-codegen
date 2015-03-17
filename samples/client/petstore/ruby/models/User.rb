@@ -1,81 +1,50 @@
-
 class User
-  attr_accessor :id, :username, :firstName, :lastName, :email, :password, :phone, :userStatus
+  attr_accessor :id, :first_name, :username, :last_name, :email, :password, :phone, :user_status
+
   # :internal => :external
   def self.attribute_map
     {
-      
       :id => :id,
-      
+      :first_name => :firstName,
       :username => :username,
-      
-      :firstName => :firstName,
-      
-      :lastName => :lastName,
-      
+      :last_name => :lastName,
       :email => :email,
-      
       :password => :password,
-      
       :phone => :phone,
-      
-      :userStatus => :userStatus
-      
+      :user_status => :userStatus
+
     }
   end
 
   def initialize(attributes = {})
     return if attributes.empty?
     # Morph attribute keys into undescored rubyish style
-    
     if self.class.attribute_map[:"id"]
-      
       @id = attributes["id"]
-      
     end
-    
+    if self.class.attribute_map[:"first_name"]
+      @first_name = attributes["firstName"]
+    end
     if self.class.attribute_map[:"username"]
-      
       @username = attributes["username"]
-      
     end
-    
-    if self.class.attribute_map[:"firstName"]
-      
-      @firstName = attributes["firstName"]
-      
+    if self.class.attribute_map[:"last_name"]
+      @last_name = attributes["lastName"]
     end
-    
-    if self.class.attribute_map[:"lastName"]
-      
-      @lastName = attributes["lastName"]
-      
-    end
-    
     if self.class.attribute_map[:"email"]
-      
       @email = attributes["email"]
-      
     end
-    
     if self.class.attribute_map[:"password"]
-      
       @password = attributes["password"]
-      
     end
-    
     if self.class.attribute_map[:"phone"]
-      
       @phone = attributes["phone"]
-      
+    end
+    if self.class.attribute_map[:"user_status"]
+      @user_status = attributes["userStatus"]
     end
     
-    if self.class.attribute_map[:"userStatus"]
-      
-      @userStatus = attributes["userStatus"]
-      
-    end
-    
+
   end
 
   def to_body
@@ -86,3 +55,4 @@ class User
     body
   end
 end
+

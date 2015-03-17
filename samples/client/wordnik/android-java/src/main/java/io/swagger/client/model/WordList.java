@@ -3,13 +3,14 @@ package io.swagger.client.model;
 import java.util.Date;
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class WordList  {
-  
+public class WordList  { 
   private Long id = null;
+  
+  //public enum idEnum {  }; 
+  
   private String permalink = null;
   private String name = null;
   private Date createdAt = null;
@@ -17,15 +18,20 @@ public class WordList  {
   private Date lastActivityAt = null;
   private String username = null;
   private Long userId = null;
+  
+  //public enum userIdEnum {  }; 
+  
   private String description = null;
   private Long numberWordsInList = null;
+  
+  //public enum numberWordsInListEnum {  }; 
+  
   private String type = null;
-
+  
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -37,7 +43,6 @@ public class WordList  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("permalink")
   public String getPermalink() {
     return permalink;
   }
@@ -49,7 +54,6 @@ public class WordList  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -61,7 +65,6 @@ public class WordList  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("createdAt")
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -73,7 +76,6 @@ public class WordList  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("updatedAt")
   public Date getUpdatedAt() {
     return updatedAt;
   }
@@ -85,7 +87,6 @@ public class WordList  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("lastActivityAt")
   public Date getLastActivityAt() {
     return lastActivityAt;
   }
@@ -97,7 +98,6 @@ public class WordList  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("username")
   public String getUsername() {
     return username;
   }
@@ -109,7 +109,6 @@ public class WordList  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("userId")
   public Long getUserId() {
     return userId;
   }
@@ -121,7 +120,6 @@ public class WordList  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("description")
   public String getDescription() {
     return description;
   }
@@ -133,7 +131,6 @@ public class WordList  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("numberWordsInList")
   public Long getNumberWordsInList() {
     return numberWordsInList;
   }
@@ -145,7 +142,6 @@ public class WordList  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("type")
   public String getType() {
     return type;
   }

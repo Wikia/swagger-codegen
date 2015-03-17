@@ -3,32 +3,47 @@ package io.swagger.client.model;
 import java.util.Date;
 
 import com.wordnik.swagger.annotations.*;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 
 @ApiModel(description = "")
-public class AudioFile  {
-  
+public class AudioFile  { 
   private String attributionUrl = null;
   private Integer commentCount = null;
+  
+  //public enum commentCountEnum {  }; 
+  
   private Integer voteCount = null;
+  
+  //public enum voteCountEnum {  }; 
+  
   private String fileUrl = null;
   private String audioType = null;
   private Long id = null;
+  
+  //public enum idEnum {  }; 
+  
   private Double duration = null;
+  
+  //public enum durationEnum {  }; 
+  
   private String attributionText = null;
   private String createdBy = null;
   private String description = null;
   private Date createdAt = null;
   private Float voteWeightedAverage = null;
+  
+  //public enum voteWeightedAverageEnum {  }; 
+  
   private Float voteAverage = null;
+  
+  //public enum voteAverageEnum {  }; 
+  
   private String word = null;
-
+  
   
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("attributionUrl")
   public String getAttributionUrl() {
     return attributionUrl;
   }
@@ -40,7 +55,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("commentCount")
   public Integer getCommentCount() {
     return commentCount;
   }
@@ -52,7 +66,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("voteCount")
   public Integer getVoteCount() {
     return voteCount;
   }
@@ -64,7 +77,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("fileUrl")
   public String getFileUrl() {
     return fileUrl;
   }
@@ -76,7 +88,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("audioType")
   public String getAudioType() {
     return audioType;
   }
@@ -88,7 +99,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("id")
   public Long getId() {
     return id;
   }
@@ -100,7 +110,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("duration")
   public Double getDuration() {
     return duration;
   }
@@ -112,7 +121,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("attributionText")
   public String getAttributionText() {
     return attributionText;
   }
@@ -124,7 +132,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("createdBy")
   public String getCreatedBy() {
     return createdBy;
   }
@@ -136,7 +143,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("description")
   public String getDescription() {
     return description;
   }
@@ -148,7 +154,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("createdAt")
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -160,7 +165,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("voteWeightedAverage")
   public Float getVoteWeightedAverage() {
     return voteWeightedAverage;
   }
@@ -172,7 +176,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("voteAverage")
   public Float getVoteAverage() {
     return voteAverage;
   }
@@ -184,7 +187,6 @@ public class AudioFile  {
   /**
    **/
   @ApiModelProperty(required = false, value = "")
-  @JsonProperty("word")
   public String getWord() {
     return word;
   }

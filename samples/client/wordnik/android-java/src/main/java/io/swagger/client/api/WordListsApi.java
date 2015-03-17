@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.io.File;
 
 public class WordListsApi {
-  String basePath = "https://api.wordnik.com/v4";
+  String basePath = "http://api.wordnik.com/v4";
   ApiInvoker apiInvoker = ApiInvoker.getInstance();
 
   public void addHeader(String key, String value) {
@@ -35,7 +35,7 @@ public class WordListsApi {
 
   
   
-  public WordList  createWordList (WordList body, String auth_token) throws ApiException {
+  public void  createWordList (WordList body, String auth_token) throws ApiException {
     Object postBody = body;
 
     
@@ -57,14 +57,14 @@ public class WordListsApi {
     try {
       String response = apiInvoker.invokeAPI(basePath, path, "POST", queryParams, postBody, headerParams, contentType);
       if(response != null){
-        return (WordList) ApiInvoker.deserialize(response, "", WordList.class);
+        return ;
       }
       else {
-        return null;
+        return ;
       }
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return  null;
+        return ;
       }
       else {
         throw ex;
