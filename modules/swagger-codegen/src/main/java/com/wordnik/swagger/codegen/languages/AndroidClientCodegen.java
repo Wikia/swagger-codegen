@@ -13,6 +13,10 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/java";
 
+  public CodegenType getTag() {
+    return CodegenType.CLIENT;
+  }
+
   public String getName() {
     return "android";
   }
@@ -29,6 +33,17 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
     templateDir = "android-java";
     apiPackage = "io.swagger.client.api";
     modelPackage = "io.swagger.client.model";
+
+    reservedWords = new HashSet<String> (
+      Arrays.asList(
+        "abstract", "continue", "for", "new", "switch", "assert", 
+        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private", 
+        "this", "break", "double", "implements", "protected", "throw", "byte", "else", 
+        "import", "public", "throws", "case", "enum", "instanceof", "return", "transient", 
+        "catch", "extends", "int", "short", "try", "char", "final", "interface", "static", 
+        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float", 
+        "native", "super", "while")
+    );
 
     additionalProperties.put("invokerPackage", invokerPackage);
     additionalProperties.put("groupId", groupId);
@@ -67,11 +82,11 @@ public class AndroidClientCodegen extends DefaultCodegen implements CodegenConfi
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/" + sourceFolder + "/" + apiPackage().replaceAll("\\.", "/");
+    return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/" + sourceFolder + "/" + modelPackage().replaceAll("\\.", "/");
+    return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
   }
 
   @Override

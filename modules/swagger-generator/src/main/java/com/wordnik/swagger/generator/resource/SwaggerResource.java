@@ -1,19 +1,3 @@
-/**
- *  Copyright 2014 Reverb, Inc.
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-
 package com.wordnik.swagger.generator.resource;
 
 import com.wordnik.swagger.codegen.*;
@@ -34,9 +18,26 @@ import javax.ws.rs.core.*;
 public class SwaggerResource {
   private static Map<String, Generated> fileMap = new HashMap<String, Generated>();
 
+  static List<String> clients = new ArrayList<String>();
+  static List<String> servers = new ArrayList<String>();
+  static {
+    List<CodegenConfig> extensions = Codegen.getExtensions();
+    for(CodegenConfig config : extensions) {
+      if(config.getTag().equals(CodegenType.CLIENT) || config.getTag().equals(CodegenType.DOCUMENTATION)) {
+        clients.add(config.getName());
+      }
+      else if(config.getTag().equals(CodegenType.SERVER)) {
+        servers.add(config.getName());
+      }
+    }
+  }
+
   @GET
   @Path("/download/{fileId}")
-  @Produces({"application/zip", "application/json"})
+  @Produces({MediaType.APPLICATION_OCTET_STREAM})
+  @ApiOperation(value = "Downloads a pre-generated file",
+    response = String.class,
+    tags = {"clients", "servers"})
   public Response downloadFile(@PathParam("fileId") String fileId) throws Exception {
     Generated g = fileMap.get(fileId);
     System.out.println("looking for fileId " + fileId);
@@ -57,9 +58,10 @@ public class SwaggerResource {
 
   @POST
   @Path("/clients/{language}")
-  @Produces({"application/zip", "application/json"})
-  @ApiOperation(value = "Generates a client library based on the config",
-    notes = "The model representing this is not accurate, it needs to contain a consolidated JSON structure")
+  @ApiOperation(
+    value = "Generates a client library based on the config",
+    response = ResponseCode.class,
+    tags = "clients")
   public Response generateClient(
     @ApiParam(value = "The target language for the client library", allowableValues = "android,java,php,objc,docs", required = true) @PathParam("language") String language,
     @ApiParam(value = "Configuration for building the client library", required = true) GeneratorInput opts) throws Exception {
@@ -73,7 +75,8 @@ public class SwaggerResource {
       g.setFriendlyName(language + "-client");
       fileMap.put(code, g);
       System.out.println(code + ", " + filename);
-      return Response.ok().entity(new ResponseCode(code)).build();
+      String link = "http://generator.swagger.io/api/gen/download/" + code;
+      return Response.ok().entity(new ResponseCode(code, link)).build();
     }
     else {
       return Response.status(500).build();
@@ -84,52 +87,31 @@ public class SwaggerResource {
   @Path("/clients")
   @ApiOperation(value = "Gets languages supported by the client generator",
     response = String.class,
-    responseContainer = "List")
+    responseContainer = "List",
+    tags = "clients")
   public Response clientOptions() {
-    String[] languages = {"android", "java", "php", "objc", "docs"};
+    String[] languages = new String[clients.size()];
+    languages = clients.toArray(languages);
     return Response.ok().entity(languages).build();
-  }
-
-  @GET
-  @Path("/clients/{language}")
-  @ApiOperation(value = "Gets options for a client generation",
-    notes = "Values which are not required will use the provided default values",
-    response = InputOption.class,
-    responseContainer = "List")
-  @ApiResponses(value = {
-    @com.wordnik.swagger.annotations.ApiResponse(code = 400, message = "Invalid model supplied", response = ValidationMessage.class),
-  })
-
-  public Response clientLibraryOptions(
-    @ApiParam(value = "The target language for the client library", allowableValues = "android,java,php,objc,docs", required = true) @PathParam("language") String language) {
-    return Response.ok().entity(Generator.clientOptions(language)).build();
   }
 
   @GET
   @Path("/servers")
   @ApiOperation(value = "Gets languages supported by the server generator",
     response = String.class,
-    responseContainer = "List")
+    responseContainer = "List",
+    tags = "servers")
   public Response serverOptions() {
-    String[] languages = {"jaxrs","nodejs"};
+    String[] languages = new String[servers.size()];
+    languages = servers.toArray(languages);
     return Response.ok().entity(languages).build();
-  }
-
-  @GET
-  @Path("/servers/{language}")
-  @ApiOperation(value = "Gets options for a server generation",
-    notes = "Values which are not required will use the provided default values",
-    response = InputOption.class,
-    responseContainer = "List")
-  public Response serverFrameworkOptions(
-    @ApiParam(value = "The target framework for the client library", allowableValues = "jaxrs,nodejs", required = true) @PathParam("language") String framework) {
-    return Response.ok().entity(Generator.serverOptions(framework)).build();
   }
 
   @POST
   @Path("/servers/{framework}")
   @ApiOperation(value = "Generates a server library for the supplied server framework",
-    notes = "The model representing this is not accurate, it needs to contain a consolidated JSON structure")
+    response = ResponseCode.class,
+    tags = "servers")
   public Response generateServerForLanguage(
     @ApiParam(value = "framework", allowableValues = "jaxrs,nodejs", required = true) @PathParam("framework") String framework,
     @ApiParam(value = "parameters", required = true) GeneratorInput opts)
@@ -146,7 +128,8 @@ public class SwaggerResource {
       g.setFriendlyName(framework + "-server");
       fileMap.put(code, g);
       System.out.println(code + ", " + filename);
-      return Response.ok().entity(new ResponseCode(code)).build();
+      String link = "http://generator.swagger.io/api/gen/download/" + code;
+      return Response.ok().entity(new ResponseCode(code, link)).build();
     }
     else {
       return Response.status(500).build();

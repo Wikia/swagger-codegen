@@ -16,6 +16,10 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
   protected boolean authPreemptive = false;
   protected boolean asyncHttpClient = !authScheme.isEmpty();
 
+  public CodegenType getTag() {
+    return CodegenType.CLIENT;
+  }
+  
   public String getName() {
     return "scala";
   }
@@ -102,11 +106,11 @@ public class ScalaClientCodegen extends DefaultCodegen implements CodegenConfig 
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/" + sourceFolder + "/" + apiPackage().replaceAll("\\.", "/");
+    return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/" + sourceFolder + "/" + modelPackage().replaceAll("\\.", "/");
+    return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
   }
 
   @Override

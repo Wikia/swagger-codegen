@@ -13,6 +13,10 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
   protected String artifactVersion = "1.0.0";
   protected String sourceFolder = "src/main/java";
 
+  public CodegenType getTag() {
+    return CodegenType.CLIENT;
+  }
+
   public String getName() {
     return "java";
   }
@@ -76,11 +80,20 @@ public class JavaClientCodegen extends DefaultCodegen implements CodegenConfig {
 
   @Override
   public String apiFileFolder() {
-    return outputFolder + "/" + sourceFolder + "/" + apiPackage().replaceAll("\\.", "/");
+    return outputFolder + "/" + sourceFolder + "/" + apiPackage().replace('.', File.separatorChar);
   }
 
   public String modelFileFolder() {
-    return outputFolder + "/" + sourceFolder + "/" + modelPackage().replaceAll("\\.", "/");
+    return outputFolder + "/" + sourceFolder + "/" + modelPackage().replace('.', File.separatorChar);
+  }
+
+  @Override
+  public String toVarName(String name) {
+    if(reservedWords.contains(name))
+      return escapeReservedWord(name);
+    else {
+      return name.replaceAll("-", "_");
+    }
   }
 
   @Override
