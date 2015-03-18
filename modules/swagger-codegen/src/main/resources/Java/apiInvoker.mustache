@@ -1,6 +1,8 @@
 package {{invokerPackage}};
 
 import com.fasterxml.jackson.databind.*;
+import jersey.repackaged.com.google.common.util.concurrent.ListenableFuture;
+import jersey.repackaged.com.google.common.util.concurrent.SettableFuture;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Invocation;
@@ -16,20 +18,12 @@ import java.net.URLEncoder;
 import java.io.UnsupportedEncodingException;
 
 public class ApiInvoker {
-  {{! wikia }}
-  private static final String RESTRICTED_HEADERS_PROPERTY = "sun.net.http.allowRestrictedHeaders";
-  {{! /wikia }}
-  private static ApiInvoker INSTANCE = new ApiInvoker();
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private boolean isDebug = false;
   private ClientFactory clientFactory = new DefaultClientFactory();
 
   public void enableDebug() {
     isDebug = true;
-  }
-
-  public static ApiInvoker getInstance() {
-    return INSTANCE;
   }
 
   public void setClientFactory(ClientFactory clientFactory) {
@@ -83,7 +77,7 @@ public class ApiInvoker {
     }
   }
 
-  public String invokeAPI(String urlBase, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+  protected Invocation.Builder createBuilder(String urlBase, String path, Map<String, String> queryParams, Map<String, String> headerParams) {
     Client client = clientFactory.getClient(urlBase);
     WebTarget webTarget = client.target(urlBase).path(path);
 
@@ -102,6 +96,25 @@ public class ApiInvoker {
         builder.header(key, defaultHeaderMap.get(key));
       }
     }
+
+    return builder;
+  }
+
+  public ListenableFuture<Response> invokeApiAsync(String urlBase, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+    Invocation.Builder builder = createBuilder(urlBase, path, queryParams, headerParams);
+    ListenableFuture<Response> response = null;
+
+    if (method.equals("GET")) {
+      response = (SettableFuture<Response>) builder.async().get();
+    } else { // TODO: implement DELETE, POST, PUT
+      throw new ApiException(500, "unsupported method type " + method);
+    }
+
+    return response;
+  }
+
+  public String invokeAPI(String urlBase, String path, String method, Map<String, String> queryParams, Object body, Map<String, String> headerParams, Map<String, String> formParams, String contentType) throws ApiException {
+    Invocation.Builder builder = createBuilder(urlBase, path, queryParams, headerParams);
     Response response = null;
 
     if("GET".equals(method)) {
@@ -166,6 +179,20 @@ public class ApiInvoker {
       throw new ApiException(
                 response.getStatus(),
                 response.getStatusInfo().getReasonPhrase());
+    }
+  }
+
+  public String getResponseAsString(Response response) throws ApiException {
+    if(response.getStatusInfo() == Response.Status.NO_CONTENT) {
+      return null;
+    }
+    else if(response.getStatusInfo().getFamily() == Response.Status.Family.SUCCESSFUL) {
+      return response.readEntity(String.class);
+    }
+    else {
+      throw new ApiException(
+        response.getStatus(),
+        response.getStatusInfo().getReasonPhrase());
     }
   }
 }

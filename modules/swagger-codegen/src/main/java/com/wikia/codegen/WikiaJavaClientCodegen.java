@@ -34,6 +34,9 @@ public class WikiaJavaClientCodegen extends JavaClientCodegen {
         new SupportingFile("defaultClientFactory.mustache",
                            (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "DefaultClientFactory.java"));
     supportingFiles.add(
+        new SupportingFile("swaggerApi.mustache",
+                           (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "SwaggerApi.java"));
+    supportingFiles.add(
         new SupportingFile("JsonUtil.mustache",
                            (sourceFolder + File.separator + invokerPackage).replace(".", java.io.File.separator), "JsonUtil.java"));
     supportingFiles.add(

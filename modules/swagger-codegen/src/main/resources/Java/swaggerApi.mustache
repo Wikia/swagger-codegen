@@ -1,0 +1,24 @@
+package {{invokerPackage}};
+
+import {{invokerPackage}}.ApiInvoker;
+
+public abstract class SwaggerApi {
+  protected String basePath;
+  protected ApiInvoker apiInvoker;
+
+  public ApiInvoker getApiInvoker() {
+    return apiInvoker;
+  }
+
+  public void setApiInvoker(ApiInvoker apiInvoker) {
+    this.apiInvoker = apiInvoker;
+  }
+
+  public String getBasePath() {
+    return this.basePath;
+  }
+
+  public void setBasePath(String basePath) {
+    this.basePath = basePath;
+  }
+}
