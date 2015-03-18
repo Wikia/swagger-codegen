@@ -8,14 +8,14 @@ import java.io.File;
 public class WikiaJavaClientCodegen extends JavaClientCodegen {
   public WikiaJavaClientCodegen() {
     super();
-    invokerPackage = "com.wikia.nirvana";
+    invokerPackage = "com.wikia.nirvana.generated";
     groupId = "com.wikia";
     artifactId = "nirvana-client";
     artifactVersion = "1.0.0";
     sourceFolder = "src/main/java";
 
-    apiPackage = "com.wikia.nirvana.api";
-    modelPackage = "com.wikia.nirvana.model";
+    apiPackage = "com.wikia.nirvana.generated.api";
+    modelPackage = "com.wikia.nirvana.generated.model";
 
     additionalProperties.put("invokerPackage", invokerPackage);
     additionalProperties.put("groupId", groupId);
