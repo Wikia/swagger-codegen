@@ -127,7 +127,7 @@ public class {{classname}} extends SwaggerApi {
       {{/returnType}}
     } catch (ApiException ex) {
       if(ex.getCode() == 404) {
-        return {{#returnType}} null{{/returnType}};
+        return {{#returnType}}null{{/returnType}};
       } else {
         throw ex;
       }
@@ -137,7 +137,7 @@ public class {{classname}} extends SwaggerApi {
       if (cause instanceof ApiException) {
         ApiException apiException = (ApiException) cause;
         if(apiException.getCode() == 404) {
-          return  null;
+          return {{#returnType}}null{{/returnType}};
         } else {
           throw apiException;
         }
